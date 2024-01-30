@@ -1,0 +1,110 @@
+<style>
+  body {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #settings {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #settings>* {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+  #settings>label>input {
+    width: 50px;
+    margin-left: 5px;
+  }
+
+  #sortingGrid {
+    display: flex;
+    flex-direction: row;
+    justify-content: top;
+    border: 2px solid black;
+    margin-top: 20px;
+  }
+
+  .sortingColumn {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black inset;
+    background-color: navy;
+  }
+
+  .sortingBlock {
+    background-color: navy;
+  }
+
+  #settings2 {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  #settings2>* {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+</style>
+<div id="settings">
+  <label for="blocksWide">Blocks Wide:<input name="blocksWide" type="number"></label>
+  <label for="blockSize">Block Size:<input name="blockSize" type="number"></label>
+  <button id="confirmSettings" onCLick="confirmSettings()">
+    Confirm
+  </button>
+</div>
+<div id="sortingGrid">
+
+</div>
+<div id="settings2">
+  <button onClick="scramble()">
+    Scramble
+  </button>
+  <button onClick="sort1()">
+    Sort 1
+  </button>
+</div>
+<script>
+  let sortingGrid = document.getElementById("sortingGrid");
+
+  function confirmSettings() {
+    sortingGrid.innerHTML = "";
+    var blocksWide = document.getElementsByName("blocksWide")[0].value;
+    var blockSize = document.getElementsByName("blockSize")[0].value;
+    sortingGrid.style.height = blockSize * blocksWide + "px";
+    sortingGrid.style.width = blockSize * blocksWide * 1.5 + "px";
+    console.log(blocksWide);
+    for (var i = 0; i < blocksWide; i++) {
+      var sortingColumn = document.createElement("div");
+      sortingColumn.classList.add("sortingColumn");
+      sortingColumn.style.height = blockSize * (i + 1) + "px";
+      sortingColumn.style.width = blockSize * 1 + "px";
+      sortingColumn.style.marginLeft = blockSize * 0.25 + "px";
+      sortingColumn.style.marginRight = blockSize * 0.25 + "px";
+      sortingColumn.style.marginTop = blockSize * ((blocksWide - i) - 1) + "px";
+      document.getElementById("sortingGrid").append(sortingColumn);
+      for (var j = 0; j < (i + 1); j++) {
+        var sortingBlock = document.createElement("div");
+        sortingBlock.classList.add("sortingBlock");
+        sortingBlock.style.width = blockSize;
+        sortingBlock.style.height = blockSize;
+        document.getElementsByClassName("sortingColumn")[i].append(sortingBlock);
+      }
+    }
+  }
+
+</script>
