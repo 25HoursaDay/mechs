@@ -69,19 +69,24 @@
 
 </div>
 <div id="settings2">
-  <button onClick="scramble()">
+  <button id="scramble" onClick="scramble()" disabled="true">
     Scramble
   </button>
   <button onClick="sort1()">
-    Sort 1
+    Bogosort
   </button>
 </div>
 <script>
+  var sortingGrid = document.getElementById("sortingGrid");
+  var blocksWide;
+  var blockSize;
+  var sortedItems = [];
+
+
   function confirmSettings() {
-    var sortingGrid = document.getElementById("sortingGrid");
+    blocksWide = document.getElementsByName("blocksWide")[0].value;
+    blockSize = document.getElementsByName("blockSize")[0].value;
     sortingGrid.innerHTML = "";
-    var blocksWide = document.getElementsByName("blocksWide")[0].value;
-    var blockSize = document.getElementsByName("blockSize")[0].value;
     sortingGrid.style.height = blockSize * blocksWide + blockSize * 0.125 + "px";
     sortingGrid.style.width = blockSize * blocksWide * 1.25 + "px";
     sortingGrid.style.marginTop = "20px";
@@ -95,11 +100,14 @@
       sortingColumn.style.marginTop = blockSize * ((blocksWide - i) - 1) + blockSize * 0.125 + "px";
       document.getElementById("sortingGrid").append(sortingColumn);
     }
+    for (var i = 0; i < blocksWide; i++) {
+      sortedItems[i] = i + 1;
+    }
+    console.log(sortedItems);
+    document.getElementById("scramble").disabled = false;
   }
 
   function scramble() {
-    var blocksWide = document.getElementsByName("blocksWide")[0].value;
-    var blockSize = document.getElementsByName("blockSize")[0].value;
     var points = [];
     for (var i = 0; i < blocksWide; i++) {
       points[i] = i + 1;
@@ -107,13 +115,35 @@
     points.sort(function() {
       return 0.5 - Math.random()
     });
-    console.log(points);
+    for (var i = 0; i < points.length; i++) {
+      document.getElementsByClassName("sortingColumn")[i].style.height = blockSize * points[i] + "px";
+      document.getElementsByClassName("sortingColumn")[i].style.marginTop = blockSize * (blocksWide - points[i]) + blockSize * 0.125 + "px";
+    }
+  }
+
+
+
+
+  function sort1() {
+    var points = [];
+    for (var i = 0; i < blocksWide; i++) {
+      points[i] = i + 1;
+    }
+
+    points.sort(function() {
+      return 0.5 - Math.random()
+    });
 
     for (var i = 0; i < points.length; i++) {
       document.getElementsByClassName("sortingColumn")[i].style.height = blockSize * points[i] + "px";
       document.getElementsByClassName("sortingColumn")[i].style.marginTop = blockSize * (blocksWide - points[i]) + blockSize * 0.125 + "px";
     }
 
+    if (sortedItems.toString() == points.toString()) {
+      console.log("Bogosort sorted!");
+    } else {
+      setTimeout(sort1, 1000);
+    }
   }
 
 </script>
