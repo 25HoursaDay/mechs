@@ -107,6 +107,10 @@
     document.getElementById("scramble").disabled = false;
   }
 
+
+
+
+
   function scramble() {
     var points = [];
     for (var i = 0; i < blocksWide; i++) {
@@ -124,7 +128,7 @@
 
 
 
-  function sort1() {
+  async function sort1() {
     var points = [];
     for (var i = 0; i < blocksWide; i++) {
       points[i] = i + 1;
@@ -139,10 +143,11 @@
       document.getElementsByClassName("sortingColumn")[i].style.marginTop = blockSize * (blocksWide - points[i]) + blockSize * 0.125 + "px";
     }
 
+    // replace the next if statement with a function that checks each and turns green if right, then resets the whole thing if wrong
     if (sortedItems.toString() == points.toString()) {
       console.log("Bogosort sorted!");
     } else {
-      setTimeout(sort1, 1000);
+      setTimeout(sort1, 500);
     }
   }
 
