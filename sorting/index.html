@@ -6,9 +6,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    overflow-y: scroll;
   }
 
   #settings {
+    margin-top: 1px;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -38,11 +40,7 @@
     display: flex;
     flex-direction: column;
     border: 1px solid black inset;
-    background-color: navy;
-  }
-
-  .sortingBlock {
-    background-color: navy;
+    background-color: blue;
   }
 
   #settings2 {
@@ -79,32 +77,43 @@
   </button>
 </div>
 <script>
-  let sortingGrid = document.getElementById("sortingGrid");
-
   function confirmSettings() {
+    var sortingGrid = document.getElementById("sortingGrid");
     sortingGrid.innerHTML = "";
     var blocksWide = document.getElementsByName("blocksWide")[0].value;
     var blockSize = document.getElementsByName("blockSize")[0].value;
-    sortingGrid.style.height = blockSize * blocksWide + "px";
-    sortingGrid.style.width = blockSize * blocksWide * 1.5 + "px";
-    console.log(blocksWide);
+    sortingGrid.style.height = blockSize * blocksWide + blockSize * 0.125 + "px";
+    sortingGrid.style.width = blockSize * blocksWide * 1.25 + "px";
+    sortingGrid.style.marginTop = "20px";
     for (var i = 0; i < blocksWide; i++) {
       var sortingColumn = document.createElement("div");
       sortingColumn.classList.add("sortingColumn");
       sortingColumn.style.height = blockSize * (i + 1) + "px";
       sortingColumn.style.width = blockSize * 1 + "px";
-      sortingColumn.style.marginLeft = blockSize * 0.25 + "px";
-      sortingColumn.style.marginRight = blockSize * 0.25 + "px";
-      sortingColumn.style.marginTop = blockSize * ((blocksWide - i) - 1) + "px";
+      sortingColumn.style.marginLeft = blockSize * 0.125 + "px";
+      sortingColumn.style.marginRight = blockSize * 0.125 + "px";
+      sortingColumn.style.marginTop = blockSize * ((blocksWide - i) - 1) + blockSize * 0.125 + "px";
       document.getElementById("sortingGrid").append(sortingColumn);
-      for (var j = 0; j < (i + 1); j++) {
-        var sortingBlock = document.createElement("div");
-        sortingBlock.classList.add("sortingBlock");
-        sortingBlock.style.width = blockSize;
-        sortingBlock.style.height = blockSize;
-        document.getElementsByClassName("sortingColumn")[i].append(sortingBlock);
-      }
     }
+  }
+
+  function scramble() {
+    var blocksWide = document.getElementsByName("blocksWide")[0].value;
+    var blockSize = document.getElementsByName("blockSize")[0].value;
+    var points = [];
+    for (var i = 0; i < blocksWide; i++) {
+      points[i] = i + 1;
+    }
+    points.sort(function() {
+      return 0.5 - Math.random()
+    });
+    console.log(points);
+
+    for (var i = 0; i < points.length; i++) {
+      document.getElementsByClassName("sortingColumn")[i].style.height = blockSize * points[i] + "px";
+      document.getElementsByClassName("sortingColumn")[i].style.marginTop = blockSize * (blocksWide - points[i]) + blockSize * 0.125 + "px";
+    }
+
   }
 
 </script>
