@@ -128,7 +128,10 @@
 
 
 
-  async function sort1() {
+  function sort1() {
+    for (var i = 0; i < blocksWide; i++) {
+      document.getElementsByClassName("sortingColumn")[i].style.backgroundColor = "blue";
+    }
     var points = [];
     for (var i = 0; i < blocksWide; i++) {
       points[i] = i + 1;
@@ -144,10 +147,16 @@
     }
 
     // replace the next if statement with a function that checks each and turns green if right, then resets the whole thing if wrong
+    for (var i = 0; i < blocksWide; i++) {
+      if (i == points[i] - 1) {
+        document.getElementsByClassName("sortingColumn")[i].style.backgroundColor = "green";
+      } else {
+        setTimeout(sort1, 500);
+        break;
+      }
+    }
     if (sortedItems.toString() == points.toString()) {
       console.log("Bogosort sorted!");
-    } else {
-      setTimeout(sort1, 500);
     }
   }
 
